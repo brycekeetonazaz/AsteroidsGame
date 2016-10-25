@@ -1,21 +1,77 @@
 //your variable declarations here
 SpaceShip space = new SpaceShip();
+Star[] lotsaStars = new Star[50];
 public void setup() 
 {
   //your code here
-  size(100,100);
-  space.setX(50);
-  space.setY(50);
+  size(800,600);
+  space.setX(400);
+  space.setY(300);
+
+  for(int i = 0; i < lotsaStars.length; i++)
+  {
+  	lotsaStars[i] = new Star((int)(Math.random()*width), (int)(Math.random()*height));
+  }
 }
 public void draw() 
 {
   //your code here
-  background(255);
+  background(0);
   space.show();
-  if(keyPressed == true && keyCode ==UP)
+  space.move();
+
+  for(int i = 0; i < lotsaStars.length; i ++)
   {
-  	space.move();
+  	lotsaStars[i].show();
   }
+}
+public void keyPressed()
+{
+	if(keyCode == UP)
+  {
+  	space.accelerate(0.1);
+  	stroke(255,0,0);
+  	strokeWeight(5);
+  	noFill();
+  	arc(space.getX(), space.getY(), 100, 100, (float)((space.getPointDirection()+90)*(Math.PI/180)), (float)((space.getPointDirection()+270)*(Math.PI/180)));
+  	strokeWeight(2);
+  }
+  if(keyCode == LEFT)
+  {
+  	space.rotate(10);
+  }
+  else if(keyCode == RIGHT)
+  {
+  	space.rotate(-10);
+  }
+  if(keyCode == DOWN)
+  {
+  	space.setX((int)(Math.random()*width));
+  	space.setY((int)(Math.random()*height));
+  	space.setDirectionX(0);
+  	space.setDirectionY(0);
+  }
+}
+class Star
+{
+	int myX, myY, myColor;
+	public Star(int x, int y)
+	{
+		myX = x;
+		myY = y;
+		myColor = color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
+	}
+	public void show()
+	{
+		noStroke();
+		fill(myColor);
+		ellipse(myX, myY, 10, 10);
+	}
+	public void changeColor()
+	{
+		int r, b, g;
+		
+	}
 }
 class SpaceShip extends Floater  
 {   
@@ -25,6 +81,13 @@ class SpaceShip extends Floater
    	corners = 7;
    	int[] xC = {-9, -13, -9, -9, -13, -9, 10, -9};
    	int[] yC = {-5,  -3, -1,  1,   3,  5,  0,  5};
+   	myColor = 255;
+
+   	for(int i = 0; i < xC.length; i ++)
+   	{
+   		xC[i]*=2;
+   		yC[i]*=2;
+   	}
 
    	xCorners = xC;
    	yCorners = yC; 
