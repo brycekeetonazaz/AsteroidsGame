@@ -17,13 +17,13 @@ public void draw()
 {
   //your code here
   background(0);
-  space.show();
-  space.move();
-
   for(int i = 0; i < lotsaStars.length; i ++)
   {
   	lotsaStars[i].show();
+  	lotsaStars[i].changeColor();
   }
+  space.show();
+  space.move();
 }
 public void keyPressed()
 {
@@ -54,23 +54,36 @@ public void keyPressed()
 }
 class Star
 {
-	int myX, myY, myColor;
+	int myX, myY, r, g, b;
 	public Star(int x, int y)
 	{
 		myX = x;
 		myY = y;
-		myColor = color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
+		r=(int)(Math.random()*255);
+		g=(int)(Math.random()*255);
+		b=(int)(Math.random()*255);
 	}
 	public void show()
 	{
 		noStroke();
-		fill(myColor);
+		fill(r, g, b);
 		ellipse(myX, myY, 10, 10);
 	}
 	public void changeColor()
 	{
-		int r, b, g;
-		
+		constrain(r, 55, 200);
+		constrain(g, 55, 200);
+		constrain(b, 55, 200);
+		r+=(int)(Math.random()*50)-25;
+		g+=(int)(Math.random()*50)-25;
+		b+=(int)(Math.random()*50)-25;
+		if(r < 100){r+=5;}
+		if(g < 100){g+=5;}
+		if(b < 100){b+=5;}
+
+		if(r > 200){r-=5;}
+		if(g > 200){g-=5;}
+		if(b > 200){b-=5;}
 	}
 }
 class SpaceShip extends Floater  
