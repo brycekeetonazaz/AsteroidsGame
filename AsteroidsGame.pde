@@ -1,5 +1,6 @@
 //your variable declarations here
 SpaceShip space = new SpaceShip();
+Asteroid roid = new Asteroid();
 Star[] lotsaStars = new Star[50];
 public void setup() 
 {
@@ -7,6 +8,11 @@ public void setup()
   size(800,600);
   space.setX(400);
   space.setY(300);
+
+  roid.setX(200);
+  roid.setY(200);
+  roid.setDirectionX(((Math.random()*10)-5));
+  roid.setDirectionY(((Math.random()*10)-5));
 
   for(int i = 0; i < lotsaStars.length; i++)
   {
@@ -24,6 +30,9 @@ public void draw()
   }
   space.show();
   space.move();
+  roid.show();
+  roid.move();
+
 }
 public void keyPressed()
 {
@@ -116,6 +125,50 @@ class SpaceShip extends Floater
   public void setPointDirection(int degrees) {myPointDirection = degrees;}   
   public double getPointDirection() {return myPointDirection;} 
 
+}
+class Asteroid extends Floater
+{
+	private int rotSpd = (int)(Math.random()*10)-5;
+
+	public Asteroid()
+	{
+		corners = 8;
+		int[] xC = {1,   11, 16, 14,  2, -17, -17, -4};
+		int[] yC = {-15, -8, -1, 12, 15,   8,  -1,-10};
+		myColor = color(102, 51, 0);
+
+		for(int i = 0; i < xC.length; i ++)
+		{
+			xC[i]*=2;
+			yC[i]*=2;
+		}
+
+		xCorners = xC;
+		yCorners = yC;
+	}
+
+	public void move()
+	{
+		setX(getX()+(int)getDirectionX());
+		setY(getY()+(int)getDirectionY());
+		rotate(rotSpd);
+
+		if(getX() == 0){setX(width-1);}
+		if(getX() == width){setX(1);}
+		if(getY() == 0){setY(height-1);}
+		if(getY() == height){setY(1);}
+	}
+
+	public void setX(int x) {myCenterX = x;}  
+  	public int getX() {return (int)myCenterX;}
+  	public void setY(int y) {myCenterY = y;}   
+  	public int getY() {return (int)myCenterY;}
+  	public void setDirectionX(double x) {myDirectionX = x;}   
+  	public double getDirectionX() {return myDirectionX;}
+  	public void setDirectionY(double y) {myDirectionY = y;}   
+  	public double getDirectionY() {return myDirectionY;}
+  	public void setPointDirection(int degrees) {myPointDirection = degrees;}   
+  	public double getPointDirection() {return myPointDirection;} 
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
