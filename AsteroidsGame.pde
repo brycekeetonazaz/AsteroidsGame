@@ -1,6 +1,6 @@
 //your variable declarations here
 SpaceShip space = new SpaceShip();
-Asteroid roid = new Asteroid();
+Asteroid[] roid = new Asteroid[25];
 Star[] lotsaStars = new Star[50];
 public void setup() 
 {
@@ -9,14 +9,17 @@ public void setup()
   space.setX(400);
   space.setY(300);
 
-  roid.setX(200);
-  roid.setY(200);
-  roid.setDirectionX(((Math.random()*10)-5));
-  roid.setDirectionY(((Math.random()*10)-5));
-
   for(int i = 0; i < lotsaStars.length; i++)
   {
   	lotsaStars[i] = new Star((int)(Math.random()*width), (int)(Math.random()*height));
+  }
+  for(int i = 0; i < roid.length; i++)
+  {
+  	roid[i] = new Asteroid();
+  	roid[i].setX(200);
+    roid[i].setY(200);
+    roid[i].setDirectionX(((Math.random()*10)-5));
+    roid[i].setDirectionY(((Math.random()*10)-5));
   }
 }
 public void draw() 
@@ -28,11 +31,13 @@ public void draw()
   	lotsaStars[i].show();
   	lotsaStars[i].changeColor();
   }
+  for(int i = 0; i < roid.length; i ++)
+  {
+  	roid[i].move();
+  	roid[i].show();
+  }
   space.show();
   space.move();
-  roid.show();
-  roid.move();
-
 }
 public void keyPressed()
 {
@@ -153,8 +158,8 @@ class Asteroid extends Floater
 		setY(getY()+(int)getDirectionY());
 		rotate(rotSpd);
 
-		if(getX() == 0){setX(width-1);}
-		if(getX() == width){setX(1);}
+		if(getX() == 0){setX(width-1); System.out.println("x check");}
+		if(getX() == width){setX(1); System.out.println("x check");}
 		if(getY() == 0){setY(height-1);}
 		if(getY() == height){setY(1);}
 	}
