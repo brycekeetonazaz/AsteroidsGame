@@ -1,6 +1,6 @@
 //your variable declarations here
 SpaceShip space = new SpaceShip();
-Asteroid[] roid = new Asteroid[25];
+Asteroid[] roid = new Asteroid[10];
 Star[] lotsaStars = new Star[50];
 public void setup() 
 {
@@ -18,8 +18,8 @@ public void setup()
   	roid[i] = new Asteroid();
   	roid[i].setX(200);
     roid[i].setY(200);
-    roid[i].setDirectionX(((Math.random()*10)-5));
-    roid[i].setDirectionY(((Math.random()*10)-5));
+    roid[i].setDirectionX(((Math.random()*4)-2));
+    roid[i].setDirectionY(((Math.random()*4)-2));
   }
 }
 public void draw() 
@@ -154,14 +154,8 @@ class Asteroid extends Floater
 
 	public void move()
 	{
-		setX(getX()+(int)getDirectionX());
-		setY(getY()+(int)getDirectionY());
 		rotate(rotSpd);
-
-		if(getX() == 0){setX(width-1); System.out.println("x check");}
-		if(getX() == width){setX(1); System.out.println("x check");}
-		if(getY() == 0){setY(height-1);}
-		if(getY() == height){setY(1);}
+		super.move();
 	}
 
 	public void setX(int x) {myCenterX = x;}  
