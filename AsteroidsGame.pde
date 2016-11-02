@@ -38,10 +38,8 @@ public void draw()
   }
   space.show();
   space.move();
-}
-public void keyPressed()
-{
-	if(keyCode == UP)
+
+  if(keyPressed == true && keyCode == UP)
   {
   	space.accelerate(0.1);
   	stroke(255,0,0);
@@ -50,21 +48,32 @@ public void keyPressed()
   	arc(space.getX(), space.getY(), 100, 100, (float)((space.getPointDirection()+90)*(Math.PI/180)), (float)((space.getPointDirection()+270)*(Math.PI/180)));
   	strokeWeight(2);
   }
-  if(keyCode == LEFT)
+  if(keyPressed == true && keyCode == RIGHT)
   {
-  	space.rotate(10);
+  	space.rotate(5);
   }
-  else if(keyCode == RIGHT)
+  else if(keyPressed == true && keyCode == LEFT)
   {
-  	space.rotate(-10);
+  	space.rotate(-5);
   }
-  if(keyCode == DOWN)
+  if(keyPressed == true && keyCode == DOWN)
   {
   	space.setX((int)(Math.random()*width));
   	space.setY((int)(Math.random()*height));
   	space.setDirectionX(0);
   	space.setDirectionY(0);
   }
+}
+public boolean counter(int tLength)
+{
+	if(frameCount % tLength == 0)
+		return true;
+	else
+		return false;
+}
+public void keyPressed()
+{
+	
 }
 class Star
 {
