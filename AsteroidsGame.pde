@@ -1,6 +1,6 @@
 //your variable declarations here
 SpaceShip space = new SpaceShip();
-ArrayList<Asteroid> roid = new ArrayList<Asteroid>();
+Asteroid[] roid = new Asteroid[10];
 Star[] lotsaStars = new Star[50];
 public void setup() 
 {
@@ -15,7 +15,7 @@ public void setup()
   }
   for(int i = 0; i < roid.length; i++)
   {
-  	roid.add(new Asteroid);
+  	roid[i] = new Asteroid();
   	roid[i].setX(200);
     roid[i].setY(200);
     roid[i].setDirectionX(((Math.random()*4)-2));
@@ -91,7 +91,6 @@ class Star
 		noStroke();
 		fill(r, g, b);
 		ellipse(myX, myY, 10, 10);
-		if(get)
 	}
 	public void changeColor()
 	{
