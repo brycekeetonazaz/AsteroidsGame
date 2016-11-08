@@ -1,6 +1,6 @@
 //your variable declarations here
 SpaceShip space = new SpaceShip();
-Asteroid[] roid = new Asteroid[10];
+ArrayList <Asteroid> roids = new ArrayList <Asteroid>();
 Star[] lotsaStars = new Star[50];
 public void setup() 
 {
@@ -13,31 +13,34 @@ public void setup()
   {
   	lotsaStars[i] = new Star((int)(Math.random()*width), (int)(Math.random()*height));
   }
-  for(int i = 0; i < roid.length; i++)
-  {
-  	roid[i] = new Asteroid();
-  	roid[i].setX(200);
-    roid[i].setY(200);
-    roid[i].setDirectionX(((Math.random()*4)-2));
-    roid[i].setDirectionY(((Math.random()*4)-2));
-  }
+  
 }
 public void draw() 
 {
   //your code here
   background(0);
+  if(counter(180)==true)
+  {
+  	roids.add(new Asteroid());
+  	roids.get(roids.size()-1).setX(10);
+    roids.get(roids.size()-1).setY(10);
+    roids.get(roids.size()-1).setDirectionX(((Math.random()*4)-2));
+    roids.get(roids.size()-1).setDirectionY(((Math.random()*4)-2));
+  }
   for(int i = 0; i < lotsaStars.length; i ++)
   {
   	lotsaStars[i].show();
   	lotsaStars[i].changeColor();
   }
-  for(int i = 0; i < roid.length; i ++)
+  for(int i = 0; i < roids.size(); i ++)
   {
-  	roid[i].move();
-  	roid[i].show();
+  	roids.get(i).move();
+  	roids.get(i).show();
   }
   space.show();
   space.move();
+
+
 
   if(keyPressed == true && keyCode == UP)
   {
@@ -128,6 +131,18 @@ class SpaceShip extends Floater
    	xCorners = xC;
    	yCorners = yC; 
   }
+
+  public void collision()
+  {
+  	for(int i = 0; i < roids.size(); i++)
+  	{
+  		if((dist((float)getX(), (float)getY(), (float)roids.get(i).getX(), (float)roids.get(i).getX())) <= 20)
+  		{
+  			roids.remove(i);
+  		}
+  	}
+  }
+
   public void setX(int x) {myCenterX = x;}  
   public int getX() {return (int)myCenterX;}
   public void setY(int y) {myCenterY = y;}   
