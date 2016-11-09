@@ -39,7 +39,7 @@ public void draw()
   }
   space.show();
   space.move();
-
+  space.collision();
 
 
   if(keyPressed == true && keyCode == UP)
@@ -74,10 +74,7 @@ public boolean counter(int tLength)
 	else
 		return false;
 }
-public void keyPressed()
-{
-	
-}
+
 class Star
 {
 	int myX, myY, r, g, b;
@@ -136,7 +133,7 @@ class SpaceShip extends Floater
   {
   	for(int i = 0; i < roids.size(); i++)
   	{
-  		if((dist((float)getX(), (float)getY(), (float)roids.get(i).getX(), (float)roids.get(i).getX())) <= 20)
+  		if((dist((float)getX(), (float)getY(), (float)roids.get(i).getX(), (float)roids.get(i).getY())) <= 50)
   		{
   			roids.remove(i);
   		}
