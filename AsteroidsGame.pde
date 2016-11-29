@@ -1,6 +1,8 @@
 //your variable declarations here
 SpaceShip space = new SpaceShip();
 ArrayList <Asteroid> roids = new ArrayList <Asteroid>();
+ArrayList <Bullet> maga = new ArrayList <Bullet>();
+
 Star[] lotsaStars = new Star[50];
 public void setup() 
 {
@@ -19,6 +21,7 @@ public void draw()
 {
   //your code here
   background(0);
+  
   if(counter(180)==true)
   {
   	roids.add(new Asteroid());
@@ -39,8 +42,33 @@ public void draw()
   }
   space.show();
   space.move();
-  space.collision();
-
+  if(keyPressed == true && keyCode == SHIFT)
+  {
+  		maga.add(new Bullet(space));
+  }
+  if(maga.size()>0)
+  	space.collision();
+  for(int i = 0; i < maga.size()-1; i++)
+  {
+  	maga.get(i).show();
+  	maga.get(i).move();
+  	if(maga.get(i).getX() >width)
+    {     
+      maga.remove(i);    
+    }    
+    else if (maga.get(i).getX()<0)
+    {     
+      maga.remove(i);    
+    }    
+    if(maga.get(i).getY() >height)
+    {    
+      maga.remove(i);   
+    }   
+    else if (maga.get(i).getY() < 0)
+    {     
+      maga.remove(i);    
+    } 
+  }
 
   if(keyPressed == true && keyCode == UP)
   {
@@ -66,6 +94,7 @@ public void draw()
   	space.setDirectionX(0);
   	space.setDirectionY(0);
   }
+  
 }
 public boolean counter(int tLength)
 {
@@ -131,11 +160,15 @@ class SpaceShip extends Floater
 
   public void collision()
   {
-  	for(int i = 0; i < roids.size(); i++)
+  	for(int i = 0; i < roids.size()-1; i++)
   	{
-  		if((dist((float)getX(), (float)getY(), (float)roids.get(i).getX(), (float)roids.get(i).getY())) <= 50)
+  		for(int a = 0; a < maga.size()-1; a ++)
   		{
-  			roids.remove(i);
+  			if((dist((float)maga.get(a).getX(), (float)maga.get(a).getY(), (float)roids.get(i).getX(), (float)roids.get(i).getY())) <= 30)
+  			{
+  				roids.remove(i);
+  				//maga.remove(a);
+  			}
   		}
   	}
   }
@@ -152,6 +185,9 @@ class SpaceShip extends Floater
   public double getPointDirection() {return myPointDirection;} 
 
 }
+
+
+
 class Asteroid extends Floater
 {
 	private int rotSpd = (int)(Math.random()*10)-5;
@@ -176,7 +212,7 @@ class Asteroid extends Floater
 	public void move()
 	{
 		rotate(rotSpd);
-		super.move();
+		super.move();  
 	}
 
 	public void setX(int x) {myCenterX = x;}  
@@ -198,7 +234,7 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   protected int myColor;   
   protected double myCenterX, myCenterY; //holds center coordinates   
   protected double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
-  protected double myPointDirection; //holds current direction the ship is pointing in degrees 
+  protected double myPointDirection; //holds curent direction the ship is pointing in degrees 
 
   abstract public void setX(int x); 
   abstract public int getX();
@@ -218,18 +254,18 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   //Accelerates the floater in the direction it is pointing (myPointDirection)   
   public void accelerate (double dAmount)   
   {          
-    //convert the current direction the floater is pointing to radians    
-    double dRadians =myPointDirection*(Math.PI/180);     
+    //convert the curent direction the floater is pointing to radians    
+    double dradians =myPointDirection*(Math.PI/180);     
     //change coordinates of direction of travel    
-    myDirectionX += ((dAmount) * Math.cos(dRadians));    
-    myDirectionY += ((dAmount) * Math.sin(dRadians));       
+    myDirectionX += ((dAmount) * Math.cos(dradians));    
+    myDirectionY += ((dAmount) * Math.sin(dradians));       
   }   
-  public void rotate (int nDegreesOfRotation)   
+  public void rotate (int nDegreesOfrotation)   
   {     
     //rotates the floater by a given number of degrees    
-    myPointDirection+=nDegreesOfRotation;   
+    myPointDirection+=nDegreesOfrotation;   
   }   
-  public void move ()   //move the floater in the current direction of travel
+  public void move ()   //move the floater in the curent direction of travel
   {      
     //change the x and y coordinates by myDirectionX and myDirectionY       
     myCenterX += myDirectionX;    
@@ -253,20 +289,20 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
       myCenterY = height;    
     }   
   }   
-  public void show ()  //Draws the floater at the current position  
+  public void show ()  //Draws the floater at the curent position  
   {             
     fill(myColor);   
     stroke(myColor);    
     //convert degrees to radians for sin and cos         
-    double dRadians = myPointDirection*(Math.PI/180);                 
-    int xRotatedTranslated, yRotatedTranslated;    
+    double dradians = myPointDirection*(Math.PI/180);                 
+    int xrotatedTranslated, yrotatedTranslated;    
     beginShape();         
     for(int nI = 0; nI < corners; nI++)    
     {     
-      //rotate and translate the coordinates of the floater using current direction 
-      xRotatedTranslated = (int)((xCorners[nI]* Math.cos(dRadians)) - (yCorners[nI] * Math.sin(dRadians))+myCenterX);     
-      yRotatedTranslated = (int)((xCorners[nI]* Math.sin(dRadians)) + (yCorners[nI] * Math.cos(dRadians))+myCenterY);      
-      vertex(xRotatedTranslated,yRotatedTranslated);    
+      //rotate and translate the coordinates of the floater using curent direction 
+      xrotatedTranslated = (int)((xCorners[nI]* Math.cos(dradians)) - (yCorners[nI] * Math.sin(dradians))+myCenterX);     
+      yrotatedTranslated = (int)((xCorners[nI]* Math.sin(dradians)) + (yCorners[nI] * Math.cos(dradians))+myCenterY);      
+      vertex(xrotatedTranslated,yrotatedTranslated);    
     }   
     endShape(CLOSE);  
   }   
