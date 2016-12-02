@@ -1,16 +1,18 @@
 //your variable declarations here
 SpaceShip space = new SpaceShip();
-ArrayList <Asteroid> roids = new ArrayList <Asteroid>();
+ArrayList <Asteroid> roids;
 ArrayList <Bullet> maga = new ArrayList <Bullet>();
-
+boolean alive = true;
 Star[] lotsaStars = new Star[50];
+double difficulty = 180;
+double scale = 1;
 public void setup() 
 {
   //your code here
   size(800,600);
   space.setX(400);
   space.setY(300);
-
+  roids = new ArrayList <Asteroid>();
   for(int i = 0; i < lotsaStars.length; i++)
   {
   	lotsaStars[i] = new Star((int)(Math.random()*width), (int)(Math.random()*height));
@@ -20,83 +22,110 @@ public void setup()
 public void draw() 
 {
   //your code here
-  background(0);
-  
-  if(counter(180)==true)
+  if(alive == true)
   {
-  	roids.add(new Asteroid());
-  	roids.get(roids.size()-1).setX(10);
-    roids.get(roids.size()-1).setY(10);
-    roids.get(roids.size()-1).setDirectionX(((Math.random()*4)-2));
-    roids.get(roids.size()-1).setDirectionY(((Math.random()*4)-2));
-  }
-  for(int i = 0; i < lotsaStars.length; i ++)
-  {
-  	lotsaStars[i].show();
-  	lotsaStars[i].changeColor();
-  }
-  for(int i = 0; i < roids.size(); i ++)
-  {
-  	roids.get(i).move();
-  	roids.get(i).show();
-  }
-  space.show();
-  space.move();
-  if(keyPressed == true && keyCode == SHIFT)
-  {
-  		maga.add(new Bullet(space));
-  }
-  if(maga.size()>0)
-  	space.collision();
-  for(int i = 0; i < maga.size()-1; i++)
-  {
-  	maga.get(i).show();
-  	maga.get(i).move();
-  	if(maga.get(i).getX() >width)
-    {     
-      maga.remove(i);    
-    }    
-    else if (maga.get(i).getX()<0)
-    {     
-      maga.remove(i);    
-    }    
-    if(maga.get(i).getY() >height)
-    {    
-      maga.remove(i);   
-    }   
-    else if (maga.get(i).getY() < 0)
-    {     
-      maga.remove(i);    
-    } 
-  }
+	  background(0);
+	  
+	  if(counter(difficulty)==true)
+	  {
+	  	roids.add(new Asteroid());
+	  	roids.get(roids.size()-1).setX(10);
+	    roids.get(roids.size()-1).setY(10);
+	    roids.get(roids.size()-1).setDirectionX(((Math.random()*4)-2));
+	    roids.get(roids.size()-1).setDirectionY(((Math.random()*4)-2));
+	    if(difficulty > 0)
+	    	difficulty --;
+	  }
+	  for(int i = 0; i < lotsaStars.length; i ++)
+	  {
+	  	lotsaStars[i].show();
+	  	lotsaStars[i].changeColor();
+	  }
+	  for(int i = 0; i < roids.size(); i ++)
+	  {
+	  	roids.get(i).move();
+	  	roids.get(i).show();
+	  }
+	  
+	  if(keyPressed == true && keyCode == SHIFT)
+	  {
+	  		maga.add(new Bullet(space));
+	  }
+	  space.collision();
+	  for(int i = 0; i < maga.size(); i++)
+	  {
+	  	maga.get(i).show();
+	  	maga.get(i).move();
+	  	/*
+	  	if(maga.get(i).getX() >width)
+	    {     
+	      maga.remove(i);    
+	    }    
+	    else if (maga.get(i).getX()<0)
+	    {     
+	      maga.remove(i);    
+	    }    
+	    if(maga.get(i).getY() >height)
+	    {    
+	      maga.remove(i);   
+	    }   
+	    else if (maga.get(i).getY() < 0)
+	    {     
+	      maga.remove(i);    
+	    }*/  
+	  }
 
-  if(keyPressed == true && keyCode == UP)
-  {
-  	space.accelerate(0.1);
-  	stroke(255,0,0);
-  	strokeWeight(5);
-  	noFill();
-  	arc(space.getX(), space.getY(), 100, 100, (float)((space.getPointDirection()+90)*(Math.PI/180)), (float)((space.getPointDirection()+270)*(Math.PI/180)));
-  	strokeWeight(2);
-  }
-  if(keyPressed == true && keyCode == RIGHT)
-  {
-  	space.rotate(5);
-  }
-  else if(keyPressed == true && keyCode == LEFT)
-  {
-  	space.rotate(-5);
-  }
-  if(keyPressed == true && keyCode == DOWN)
-  {
-  	space.setX((int)(Math.random()*width));
-  	space.setY((int)(Math.random()*height));
-  	space.setDirectionX(0);
-  	space.setDirectionY(0);
-  }
   
+	  space.show();
+	  space.move();
+	  if(keyPressed == true && keyCode == UP)
+	  {
+	  	space.accelerate(0.1);
+	  	stroke(255,0,0);
+	  	strokeWeight(5);
+	  	noFill();
+	  	arc(space.getX(), space.getY(), 100, 100, (float)((space.getPointDirection()+90)*(Math.PI/180)), (float)((space.getPointDirection()+270)*(Math.PI/180)));
+	  	strokeWeight(2);
+	  }
+	  if(keyPressed == true && keyCode == RIGHT)
+	  {
+	  	space.rotate(5);
+	  }
+	  else if(keyPressed == true && keyCode == LEFT)
+	  {
+	  	space.rotate(-5);
+	  }
+	  if(keyPressed == true && keyCode == DOWN)
+	  {
+	  	space.setX((int)(Math.random()*width));
+	  	space.setY((int)(Math.random()*height));
+	  	space.setDirectionX(0);
+	  	space.setDirectionY(0);
+	  }
+	  
+	}
+	else{
+		background(255,0,0);
+		fill(0,255,0);
+		textSize(100);
+		textAlign(CENTER);
+		text("You Died", width/2, height/2);
+		textSize(50);
+		text("Press Shift to restart", width/2, height/2 + 50);
+		if(keyPressed == true && keyCode == SHIFT)
+		{
+			background(0);
+			space.setX(width/2);
+			space.setY(height/2);
+			space.setDirectionX(0);
+			space.setDirectionY(0);
+			setup();
+			alive = true;
+			frameCount = 0;
+		}
+	}
 }
-public boolean counter(int tLength)
+public boolean counter(double tLength)
 {
 	if(frameCount % tLength == 0)
 		return true;
@@ -160,16 +189,23 @@ class SpaceShip extends Floater
 
   public void collision()
   {
-  	for(int i = 0; i < roids.size()-1; i++)
+  	for(int i = 0; i < roids.size(); i++)
   	{
-  		for(int a = 0; a < maga.size()-1; a ++)
+		if((dist((float)myCenterX, (float)myCenterY, (float)roids.get(i).getX(), (float)roids.get(i).getY())) <= 50)
+  		{
+  			alive = false;
+  		}
+
+  		for(int a = 0; a < maga.size(); a ++)
   		{
   			if((dist((float)maga.get(a).getX(), (float)maga.get(a).getY(), (float)roids.get(i).getX(), (float)roids.get(i).getY())) <= 30)
   			{
   				roids.remove(i);
-  				//maga.remove(a);
+  				maga.remove(a);
+  				break;
   			}
   		}
+  		
   	}
   }
 
