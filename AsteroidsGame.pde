@@ -111,8 +111,8 @@ public void draw()
 		textAlign(CENTER);
 		text("You Died", width/2, height/2);
 		textSize(50);
-		text("Press Shift to restart", width/2, height/2 + 50);
-		if(keyPressed == true && keyCode == SHIFT)
+		text("Press S to Restart", width/2, height/2 + 50);
+		if(keyPressed == true && key == 's')
 		{
 			background(0);
 			space.setX(width/2);
