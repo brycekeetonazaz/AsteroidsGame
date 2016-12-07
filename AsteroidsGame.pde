@@ -6,6 +6,8 @@ boolean alive = true;
 Star[] lotsaStars = new Star[50];
 double difficulty = 180;
 double scale = 1;
+int score = 0;
+int numBuls = 0;
 public void setup() 
 {
   //your code here
@@ -25,7 +27,6 @@ public void draw()
   if(alive == true)
   {
 	  background(0);
-	  
 	  if(counter(difficulty)==true)
 	  {
 	  	roids.add(new Asteroid());
@@ -34,7 +35,7 @@ public void draw()
 	    roids.get(roids.size()-1).setDirectionX(((Math.random()*4)-2));
 	    roids.get(roids.size()-1).setDirectionY(((Math.random()*4)-2));
 	    if(difficulty > 0)
-	    	difficulty --;
+	    	difficulty--;
 	  }
 	  for(int i = 0; i < lotsaStars.length; i ++)
 	  {
@@ -47,9 +48,15 @@ public void draw()
 	  	roids.get(i).show();
 	  }
 	  
-	  if(keyPressed == true && keyCode == SHIFT)
+	  if(keyPressed == true && keyCode == SHIFT && numBuls == 0)
 	  {
 	  		maga.add(new Bullet(space));
+	  		numBuls ++;
+	  		space.myColor = color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+	  }
+	  else
+	  {
+	  		numBuls = 0;
 	  }
 	  space.collision();
 	  for(int i = 0; i < maga.size(); i++)
@@ -81,6 +88,7 @@ public void draw()
 	  if(keyPressed == true && keyCode == UP)
 	  {
 	  	space.accelerate(0.1);
+	  	space.myColor = color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
 	  	stroke(255,0,0);
 	  	strokeWeight(5);
 	  	noFill();
@@ -90,10 +98,12 @@ public void draw()
 	  if(keyPressed == true && keyCode == RIGHT)
 	  {
 	  	space.rotate(5);
+	  	//space.myColor = color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
 	  }
 	  else if(keyPressed == true && keyCode == LEFT)
 	  {
 	  	space.rotate(-5);
+	  	//space.myColor = color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
 	  }
 	  if(keyPressed == true && keyCode == DOWN)
 	  {
@@ -101,30 +111,37 @@ public void draw()
 	  	space.setY((int)(Math.random()*height));
 	  	space.setDirectionX(0);
 	  	space.setDirectionY(0);
+	  	space.myColor = color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
 	  }
-	  
+	  textSize(20);
+	  fill(255);
+	  textAlign(LEFT);
+	  text("Your score: "+ score, 20,20);
 	}
 	else{
-		background(255,0,0);
-		fill(0,255,0);
+		background((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+		fill((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
 		textSize(100);
 		textAlign(CENTER);
 		text("You Died", width/2, height/2);
 		textSize(50);
 		text("Press S to Restart", width/2, height/2 + 50);
+		text("Your Score: "+score, width/2, height/2 + 100);
 		if(keyPressed == true && key == 's')
 		{
 			background(0);
-			space.setX(width/2);
 			space.setY(height/2);
+			space.setX(width/2);
 			space.setDirectionX(0);
 			space.setDirectionY(0);
+			score = 0;
 			setup();
 			alive = true;
 			frameCount = 0;
 		}
 	}
 }
+
 public boolean counter(double tLength)
 {
 	if(frameCount % tLength == 0)
@@ -202,6 +219,7 @@ class SpaceShip extends Floater
   			{
   				roids.remove(i);
   				maga.remove(a);
+  				score ++;
   				break;
   			}
   		}
@@ -243,12 +261,6 @@ class Asteroid extends Floater
 
 		xCorners = xC;
 		yCorners = yC;
-	}
-
-	public void move()
-	{
-		rotate(rotSpd);
-		super.move();  
 	}
 
 	public void setX(int x) {myCenterX = x;}  
